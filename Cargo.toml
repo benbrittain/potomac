@@ -1,0 +1,12 @@
+[package]
+name = "potomac"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.91"
+
+[build-dependencies]
+bindgen = "0.70.1"
+anyhow = "1.0.91"
+regex = "1.11.0"
