@@ -4,11 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+chumsky = { version = "1.0.0-alpha.7", features = ["label"] }
 miette = { version = "7.2.0", features = ["fancy"] }
-pest = "2.7.14"
-pest_derive = "2.7.14"
 thiserror = "1.0.65"
-winnow = { version = "0.6.20", features = ["alloc", "unstable-recover", "debug"] }
 
 [build-dependencies]
 bindgen = "0.70.1"
