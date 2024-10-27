@@ -2,6 +2,7 @@
 name = "potomac"
 version = "0.1.0"
 edition = "2021"
+build = "build/main.rs"
 
 [dependencies]
 chumsky = { version = "1.0.0-alpha.7", features = ["label"] }
@@ -12,3 +13,7 @@ thiserror = "1.0.65"
 bindgen = "0.70.1"
 anyhow = "1.0.91"
 regex = "1.11.0"
+syn = { version = "2", default-features = false, features = ["full", "parsing", "visit"] }
+prettyplease = "0.2"
+quote = "1.0"
+heck = "0.5.0"

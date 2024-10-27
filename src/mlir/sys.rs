@@ -3,7 +3,7 @@
 #![allow(non_snake_case)]
 #![allow(dead_code)]
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+include!(concat!(env!("OUT_DIR"), "/low-level.rs"));
 
 #[cfg(test)]
 mod mlir_tests {

@@ -1,9 +1,9 @@
 mod ast;
+mod codegen;
 mod error;
 mod lexer;
-mod parser;
-mod codegen;
 mod mlir;
+mod parser;
 
 use miette::Result;
 
