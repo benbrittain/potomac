@@ -2,7 +2,8 @@ mod ast;
 mod error;
 mod lexer;
 mod parser;
-mod sys;
+mod codegen;
+mod mlir;
 
 use miette::Result;
 
@@ -31,10 +32,6 @@ def main() {
 }
     "###;
     let tokens = crate::lexer::lex(src)?;
-    for token in &tokens {
-        println!("{}", token.0);
-    }
     let ast = crate::parser::parse(src, tokens)?;
-    dbg!(ast);
-    Ok(())
+    crate::codegen::generate(src, ast.0)
 }
