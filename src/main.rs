@@ -1,28 +1,40 @@
 mod ast;
-mod lexer;
 mod error;
-//mod parser;
+mod lexer;
+mod parser;
 mod sys;
 
 use miette::Result;
 
 fn main() -> Result<()> {
     let src = r###"
-    return 0 4@3^3;
+def main1() {
+    print(3);
+  var a = a;
+  var b = a;
+}
+
+def main() {
+  # Define a variable `a` with shape <2, 3>, initialized with the literal value.
+  # The shape is inferred from the supplied literal.
+  var a = [[1, 2, 3], [4, 5, 6]];
+
+  # b is identical to a, the literal tensor is implicitly reshaped: defining new
+  # variables is the way to reshape tensors (element count must match).
+  var b<2, 3> = [1, 2, 3, 4, 5, 6];
+
+  print(1 + 3 * 4);
+
+  # transpose() and print() are the only builtin, the following will transpose
+  # a and b and perform an element-wise multiplication before printing the result.
+  # print(transpose()); #(a) * transpose(b));
+}
     "###;
     let tokens = crate::lexer::lex(src)?;
-    //let ast = crate::parser::parse(tokens)?;
-    dbg!(tokens);
-    //let ast = parser::try_parse(
-    //    parser::func,
-    //    r###"def main() {
-    //  ar a = 3;
-    //}"###,
-    //)
-    //.into_diagnostic()?;
-    //let ast = parser::try_parse(
-    //    parser::factor, "012#",
-    //)
-    //.into_diagnostic()?;
+    for token in &tokens {
+        println!("{}", token.0);
+    }
+    let ast = crate::parser::parse(src, tokens)?;
+    dbg!(ast);
     Ok(())
 }

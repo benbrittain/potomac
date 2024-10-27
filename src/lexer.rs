@@ -2,13 +2,14 @@ use std::sync::Arc;
 
 use chumsky::{extra, prelude::*, Parser};
 use miette::SourceSpan;
-use crate::error::*;
 
-pub type Span = SimpleSpan<usize>;
-pub type ToyParseError<'a> = Rich<'a, char, Span, &'a str>;
+use crate::{ast::Span, error::*};
+
+type ToyParseError<'a> = Rich<'a, char, Span, &'a str>;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Token<'src> {
+    Bool(bool),
     Num(f64),
     Str(&'src str),
     Op(&'src str),
@@ -17,6 +18,13 @@ pub enum Token<'src> {
     Def,
     Var,
     Return,
+    Print,
+}
+
+impl std::fmt::Display for Token<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }
 
 pub fn lex<'src>(src: &'src str) -> Result<Vec<(Token<'src>, Span)>, ToyFailure> {
@@ -55,12 +63,13 @@ fn lexer<'src>(
         .map(Token::Op);
 
     // A parser for control characters (delimiters, semicolons, etc.)
-    let ctrl = one_of("()[]{};,").map(Token::Ctrl);
+    let ctrl = one_of("()[]{};,<>").map(Token::Ctrl);
 
     let ident = text::ascii::ident().map(|ident: &str| match ident {
-        "dev" => Token::Def,
+        "def" => Token::Def,
         "var" => Token::Var,
         "return" => Token::Return,
+        "print" => Token::Print,
         _ => Token::Ident(ident),
     });
 

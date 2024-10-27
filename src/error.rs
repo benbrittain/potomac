@@ -44,4 +44,7 @@ pub enum ToyErrorKind {
     #[error("Failed to parse source code (lexer).")]
     #[diagnostic(code(toy::lex))]
     Lex,
+    #[error("Failed to parse source code (parser).")]
+    #[diagnostic(code(toy::parse))]
+    Parse,
 }
